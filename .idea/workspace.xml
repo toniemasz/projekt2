@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffab5234-dc4e-49aa-b059-7c0104dd1bb5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kursy walut.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Currency.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CurrencyConverterClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CurrencyConverterServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CurrencyList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Runner.java" afterDir="false" />
+    <list default="true" id="ffab5234-dc4e-49aa-b059-7c0104dd1bb5" name="Changes" comment="KOD">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Runner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,11 +58,34 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1706209635019</updated>
-      <workItem from="1706209636153" duration="5863000" />
+      <workItem from="1706209636153" duration="6316000" />
     </task>
+    <task id="LOCAL-00001" summary="KOD">
+      <created>1706215646195</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706215646195</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="KOD" />
+    <option name="LAST_COMMIT_MESSAGE" value="KOD" />
   </component>
 </project>

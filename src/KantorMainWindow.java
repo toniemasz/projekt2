@@ -17,7 +17,7 @@ public class KantorMainWindow extends JFrame {
         Color lightGreen = new Color(144, 238, 144);
         mainPanel.setBackground(lightGreen);
 
-        JLabel welcomeLabel = new JLabel("Wymieniaj waluty!", SwingConstants.CENTER);
+        JLabel welcomeLabel = new JLabel("KANTOR", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 32));
 
         JButton closeButton = new JButton("Zamknij aplikacje");
@@ -26,7 +26,19 @@ public class KantorMainWindow extends JFrame {
             System.exit(0);
         });
 
+        JButton currencyButton = new JButton("Kurs waluty");
+        currencyButton.addActionListener(e -> {
+
+        });
+
+        JButton exchangeButton = new JButton("Wymień walute");
+        currencyButton.addActionListener(e -> {
+
+        });
+
         mainPanel.add(welcomeLabel, BorderLayout.NORTH);
+        mainPanel.add(currencyButton, BorderLayout.WEST);
+        mainPanel.add(exchangeButton, BorderLayout.CENTER);
         mainPanel.add(closeButton, BorderLayout.SOUTH);
 
         setContentPane(mainPanel);

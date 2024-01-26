@@ -1,15 +1,23 @@
+import javax.swing.*;
+
 public class Runner {
+    public static void main(String[] args) {
+        // Create an instance of the KantorGUI to start the application
+        SwingUtilities.invokeLater(() -> {
+            KantorGUI kantorGUI = new KantorGUI();
+            kantorGUI.setVisible(true);
+        });
 
-    public static void main(String[] args) throws InterruptedException {
+        // Optionally, you can start the server in the background
+        startServerInBackground();
+    }
 
-        CurrencyConverterServer server = new CurrencyConverterServer();
-        CurrencyConverterClient client = new CurrencyConverterClient();
-
-        Thread serverThread = new Thread(() -> server.connectToServer());
-        Thread clientThread = new Thread(() -> client.connectToClient());
-
-        serverThread.start();
-        clientThread.start();
+    private static void startServerInBackground() {
+        // You may want to run the server in a separate thread or as a background task
+        // to allow the GUI to remain responsive.
+        new Thread(() -> {
+            CurrencyConverterServer server = new CurrencyConverterServer();
+            server.connectToServer();
+        }).start();
     }
 }
-

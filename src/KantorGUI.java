@@ -36,15 +36,6 @@ public class KantorGUI extends JFrame {
         startButton = new JButton("Start");
         mainPanel.add(startButton);
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new KantorGUI().setVisible(true);
-            }
-        });
-    }
 }
 
 

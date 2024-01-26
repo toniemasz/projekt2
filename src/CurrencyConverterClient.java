@@ -4,16 +4,35 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class CurrencyConverterClient {
+    private int choice;
+    private String currencyCode;
+    private double amount;
+
+    private double convertedAmount;
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setChoice(int choice) {
+        this.choice = choice;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public double getConvertedAmount() {
+        return convertedAmount;
+    }
 
     public void connectToClient(){
         try {
-            Scanner scanner = new Scanner(System.in);
 
-            System.out.println("1. Sprawdź kurs waluty");
-            System.out.println("2. Przelicz kwotę");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
 
             Socket socket = new Socket("localhost", 5555);
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -24,7 +43,6 @@ public class CurrencyConverterClient {
                 outputStream.writeObject("GET_RATE");
 
                 System.out.println("Podaj kod waluty (np. USD, EUR, GBP):");
-                String currencyCode = scanner.nextLine();
                 outputStream.writeObject(currencyCode);
 
                 Double exchangeRate = (Double) inputStream.readObject();
@@ -41,17 +59,15 @@ public class CurrencyConverterClient {
                 System.out.println("Przeliczanie z PLN na:");
 
                 System.out.println("Podaj kod waluty docelowej (np. USD):");
-                String toCurrency = scanner.nextLine();
-                outputStream.writeObject(toCurrency);
+                outputStream.writeObject(currencyCode);
 
                 System.out.println("Podaj kwotę:");
-                double amount = scanner.nextDouble();
                 outputStream.writeObject(amount);
 
-                Double convertedAmount = (Double) inputStream.readObject();
+                convertedAmount = (Double) inputStream.readObject();
 
                 if (convertedAmount != -1.0) {
-                    System.out.println("Przeliczona kwota: " + convertedAmount + " " + toCurrency);
+                    System.out.println("Przeliczona kwota: " + convertedAmount + " " + currencyCode);
                 } else {
                     System.out.println("Nie udało się przeliczyć kwoty. Sprawdź dostępność kursów walut.");
                 }

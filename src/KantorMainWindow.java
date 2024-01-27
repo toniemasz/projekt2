@@ -85,11 +85,31 @@ public class KantorMainWindow extends JFrame {
             // Przekazujemy informację o wyborze do klienta
             converterClient.setChoice(1);
 
+            // Pobieramy kod waluty od użytkownika
+            String userCurrencyCode = JOptionPane.showInputDialog(this, "Podaj kod waluty (np. USD, EUR, GBP):");
+
+            // Ustawiamy kod waluty w obiekcie klienta
+            converterClient.setCurrencyCode(userCurrencyCode);
+
             // Wywołujemy metodę łączenia z klientem
             converterClient.connectToClient();
+
+            // Pobieramy kurs i walutę z klienta
+            Double exchangeRate = converterClient.getExchangeRate();
+
+            // Pobieramy kod waluty z klienta (ponowne pobranie, gdyż zmienił się w obiekcie klienta)
+            String retrievedCurrencyCode = converterClient.getCurrencyCode();
+
+            // Wyświetlamy kurs w oknie dialogowym
+            if (exchangeRate != -1.0) {
+                JOptionPane.showMessageDialog(this, "Kurs dla waluty " + retrievedCurrencyCode + ": " + exchangeRate);
+            } else {
+                JOptionPane.showMessageDialog(this, "Brak dostępnego kursu dla waluty " + retrievedCurrencyCode);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 }

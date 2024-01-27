@@ -6,12 +6,20 @@ import java.util.Scanner;
 public class CurrencyConverterClient {
     private int choice;
     private String currencyCode;
+
+    private double exchangeRate;
     private double amount;
 
     private double convertedAmount;
 
+
+
     public String getCurrencyCode() {
         return currencyCode;
+    }
+
+    public double getExchangeRate() {
+        return exchangeRate;
     }
 
     public void setChoice(int choice) {
@@ -25,6 +33,8 @@ public class CurrencyConverterClient {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+
 
     public double getConvertedAmount() {
         return convertedAmount;
@@ -45,7 +55,7 @@ public class CurrencyConverterClient {
                 System.out.println("Podaj kod waluty (np. USD, EUR, GBP):");
                 outputStream.writeObject(currencyCode);
 
-                Double exchangeRate = (Double) inputStream.readObject();
+                exchangeRate = (Double) inputStream.readObject();
 
                 if (exchangeRate != -1.0) {
                     System.out.println("Kurs dla waluty " + currencyCode + ": " + exchangeRate);

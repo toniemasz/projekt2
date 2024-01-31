@@ -3,8 +3,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
-
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -20,49 +18,44 @@ public class CurrencyConverterServer {
     }
 
     public void connectToServer() {
-        try {
-            ServerSocket serverSocket = new ServerSocket(5555);
+        try (ServerSocket serverSocket = new ServerSocket(5555)) {
 
             while (true) {
 
                 Socket socket = serverSocket.accept();
-                new Thread(() -> {
-                    try {
-                        ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 
-                        String request = (String) inputStream.readObject();
+                Thread clientThread = new Thread(() -> handleClient(socket));
+                clientThread.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-                        if ("GET_RATE".equals(request)) {
-                            // Obsługa żądania pobrania kursu waluty
-                            String currencyCode = (String) inputStream.readObject();
-                            Double exchangeRate = exchangeRates.getOrDefault(currencyCode, -1.0);
-                            outputStream.writeObject(exchangeRate);
+    private static void handleClient(Socket socket) {
+        try (
+                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())
+        ) {
+            String request = (String) inputStream.readObject();
 
-                        } else if ("CONVERT".equals(request)) {
-                            // Obsługa żądania przeliczenia kwoty
-                            String toCurrency = (String) inputStream.readObject();
-                            double amount = (Double) inputStream.readObject();
+            if ("GET_RATE".equals(request)) {
+                String currencyCode = (String) inputStream.readObject();
+                Double exchangeRate = exchangeRates.get(currencyCode);
+                outputStream.writeObject(exchangeRate);
+            } else if ("CONVERT".equals(request)) {
+                String toCurrency = (String) inputStream.readObject();
+                double amount = (Double) inputStream.readObject();
 
-                            Double fromRate = 1.0;
-                            Double toRate = exchangeRates.getOrDefault(toCurrency, -1.0);
+                Double toRate = exchangeRates.get(toCurrency);
 
-                            double convertedAmount = amount * (fromRate / toRate);
-                            outputStream.writeObject(convertedAmount);
-                        }else if ("SHOW".equals(request)){
-                            outputStream.writeObject(currencyList.displayShortName());
-                        }
-
-                        inputStream.close();
-                        outputStream.close();
-                        socket.close();
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
+                double convertedAmount = amount * (1 / toRate);
+                outputStream.writeObject(convertedAmount);
+            } else if ("SHOW".equals(request)) {
+                outputStream.writeObject(currencyList.displayShortName());
             }
 
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

@@ -1,11 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 
 public class KantorMainWindow extends JFrame {
+    CurrencyConverterClient client = new CurrencyConverterClient();
     public KantorMainWindow() {
         initializeComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,7 +15,7 @@ public class KantorMainWindow extends JFrame {
 
     private void initializeComponents() {
         JPanel mainPanel = new JPanel();
-        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        mainPanel.setBorder(new EmptyBorder(40, 40, 40, 40));
         mainPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -45,14 +44,13 @@ public class KantorMainWindow extends JFrame {
         buttons.add(exchangeButton, gbc);
         buttons.add(allCurrencyButton, gbc);
 
-        gbc.gridy = 0; // Zerujemy wartość przed dodaniem komponentów
-
+        gbc.gridy = 0;
         mainPanel.add(Box.createVerticalStrut(20), gbc);
-        gbc.gridy++; // Przesuwamy się o jeden wiersz
+        gbc.gridy++;
         mainPanel.add(welcomeLabel, gbc);
-        gbc.gridy++; // Przesuwamy się o jeden wiersz
+        gbc.gridy++;
         mainPanel.add(Box.createVerticalStrut(20), gbc);
-        gbc.gridy++; // Przesuwamy się o jeden wiersz
+        gbc.gridy++;
         mainPanel.add(buttons, gbc);
         buttons.setBackground(lightGreen);
 
@@ -73,72 +71,52 @@ public class KantorMainWindow extends JFrame {
         setLayout(new BorderLayout());
         add(mainPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
+
+
     }
 
-    private void showAllCurrencies() {
-        CurrencyConverterClient converterClient = new CurrencyConverterClient();
-        converterClient.setChoice(3);
-        converterClient.connectToClient();
-        String shortNames = converterClient.getListOfShortName();
-        JOptionPane.showMessageDialog(this, shortNames);
-    }
-
-    private void exchange() {
-        try {
-            // Tutaj tworzymy obiekt CurrencyConverterClient
-            CurrencyConverterClient converterClient = new CurrencyConverterClient();
-
-            // Przekazujemy informację o wyborze do klienta
-            converterClient.setChoice(2);
-            String currencyCode = JOptionPane.showInputDialog(this, "Podaj kod waluty (np. USD, EUR):");
-            converterClient.setCurrencyCode(currencyCode);
-            String amount = JOptionPane.showInputDialog(this,"Podaj kwotę: ");
-            converterClient.setAmount(Double.parseDouble(amount));
-            converterClient.connectToClient();
-            double convertedAmount = converterClient.getConvertedAmount();
-            String convertedCurrencyCode = converterClient.getCurrencyCode();
-            JOptionPane.showMessageDialog(this, convertedAmount + convertedCurrencyCode);
 
 
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void CurrencyCheck() {
-        try {
-            // Tutaj tworzymy obiekt CurrencyConverterClient
-            CurrencyConverterClient converterClient = new CurrencyConverterClient();
+            //przypisujemy wybór który jest zależny od przycisku
+            client.setChoice(1);
+            String currencyCode = JOptionPane.showInputDialog(this, "Podaj kod waluty (np. USD, EUR, GBP):");
 
-            // Przekazujemy informację o wyborze do klienta
-            converterClient.setChoice(1);
+            //ustawiamy walutę którą wpisaliśmy w obiekcie client
+            client.setCurrencyCode(currencyCode);
 
-            // Pobieramy kod waluty od użytkownika
-            String userCurrencyCode = JOptionPane.showInputDialog(this, "Podaj kod waluty (np. USD, EUR, GBP):");
+           //wywołujemy metodę główną clienta
+            client.connectToClient();
 
-            // Ustawiamy kod waluty w obiekcie klienta
-            converterClient.setCurrencyCode(userCurrencyCode);
+           //pobieramy z klienta parametr exchangeRate
+            Double exchangeRate = client.getExchangeRate();
 
-            // Wywołujemy metodę łączenia z klientem
-            converterClient.connectToClient();
+            JOptionPane.showMessageDialog(this, "Kurs dla waluty " + currencyCode + ": " + exchangeRate);
 
-            // Pobieramy kurs i walutę z klienta
-            Double exchangeRate = converterClient.getExchangeRate();
 
-            // Pobieramy kod waluty z klienta (ponowne pobranie, gdyż zmienił się w obiekcie klienta)
-            String retrievedCurrencyCode = converterClient.getCurrencyCode();
-
-            // Wyświetlamy kurs w oknie dialogowym
-            if (exchangeRate != -1.0) {
-                JOptionPane.showMessageDialog(this, "Kurs dla waluty " + retrievedCurrencyCode + ": " + exchangeRate);
-            } else {
-                JOptionPane.showMessageDialog(this, "Brak dostępnego kursu dla waluty " + retrievedCurrencyCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
+    private void exchange() {
+        client.setChoice(2);
 
+        String currencyCode = JOptionPane.showInputDialog(this, "Podaj kod waluty (np. USD, EUR):");
+        client.setCurrencyCode(currencyCode);
+
+        String amount = JOptionPane.showInputDialog(this,"Podaj kwotę: ");
+        client.setAmount(Double.parseDouble(amount));
+
+        client.connectToClient();
+
+        double convertedAmount = client.getConvertedAmount();
+        JOptionPane.showMessageDialog(this, convertedAmount + currencyCode);
+    }
+    private void showAllCurrencies() {
+        client.setChoice(3);
+
+        client.connectToClient();
+
+        String shortNames = client.getListOfShortName();
+        JOptionPane.showMessageDialog(this, shortNames);
+    }
 
 }

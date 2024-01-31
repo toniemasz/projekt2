@@ -51,6 +51,9 @@ public class CurrencyList {
         for (Currency currency : currencyList) {
             shortNames.append(currency.getShortName()).append(",");
         }
+
+        shortNames.deleteCharAt(shortNames.length() - 1);
+
         return shortNames.toString();
     }
 

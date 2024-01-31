@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffab5234-dc4e-49aa-b059-7c0104dd1bb5" name="Changes" comment="KOD">
+    <list default="true" id="ffab5234-dc4e-49aa-b059-7c0104dd1bb5" name="Changes" comment="FINAL">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CurrencyConverterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CurrencyConverterClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CurrencyConverterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CurrencyConverterServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CurrencyList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CurrencyList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KantorMainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KantorMainWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Runner.java" afterDir="false" />
     </list>
@@ -106,7 +104,7 @@
       <updated>1706209635019</updated>
       <workItem from="1706209636153" duration="6316000" />
       <workItem from="1706646509744" duration="825000" />
-      <workItem from="1706720849096" duration="8813000" />
+      <workItem from="1706720849096" duration="9965000" />
     </task>
     <task id="LOCAL-00001" summary="KOD">
       <created>1706215646195</created>
@@ -130,7 +128,14 @@
       <option name="project" value="LOCAL" />
       <updated>1706723784458</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="FINAL">
+      <created>1706729790826</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706729790826</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,6 +154,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="KOD" />
-    <option name="LAST_COMMIT_MESSAGE" value="KOD" />
+    <MESSAGE value="FINAL" />
+    <option name="LAST_COMMIT_MESSAGE" value="FINAL" />
   </component>
 </project>

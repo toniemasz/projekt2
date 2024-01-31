@@ -108,7 +108,8 @@ public class KantorMainWindow extends JFrame {
         client.connectToClient();
 
         double convertedAmount = client.getConvertedAmount();
-        JOptionPane.showMessageDialog(this, convertedAmount + currencyCode);
+        double roundedAmount = Math.round(convertedAmount * 100.0) / 100.0;
+        JOptionPane.showMessageDialog(this, roundedAmount +" "+currencyCode);
     }
     private void showAllCurrencies() {
         client.setChoice(3);

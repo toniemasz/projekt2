@@ -8,8 +8,6 @@ public class Runner{
                 KantorGUI kantorGUI = new KantorGUI();
                 kantorGUI.setVisible(true);
             });
-            
-
 
             CurrencyConverterServer server = new CurrencyConverterServer();
             server.connectToServer();

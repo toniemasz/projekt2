@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,8 +49,8 @@ public class CurrencyConverterServer {
                 double amount = (Double) inputStream.readObject();
 
                 Double toRate = exchangeRates.get(toCurrency);
-
-                double convertedAmount = amount * (1 / toRate);
+                double convertedAmount = amount / toRate;
+                System.out.println(convertedAmount);
                 outputStream.writeObject(convertedAmount);
             } else if ("SHOW".equals(request)) {
                 outputStream.writeObject(currencyList.displayShortName());

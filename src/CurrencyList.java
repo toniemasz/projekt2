@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CurrencyList {
-    List<Currency> currnecyList = new ArrayList<>();
+    List<Currency> currencyList = new ArrayList<>();
     Currency USD = new Currency("Dolar amerykański", "USD", 3.75);
     Currency EUR = new Currency("Euro", "EUR", 4.21);
     Currency GBP = new Currency("Funt szterling", "GBP", 4.9227);
@@ -24,24 +24,34 @@ public class CurrencyList {
 
     public CurrencyList() {
 
-        currnecyList.add(USD);
-        currnecyList.add(EUR);
-        currnecyList.add(GBP);
-        currnecyList.add(CHF);
-        currnecyList.add(AED);
-        currnecyList.add(AUD);
-        currnecyList.add(CAD);
-        currnecyList.add(HUF);
-        currnecyList.add(JPY);
-        currnecyList.add(CZK);
-        currnecyList.add(DKK);
-        currnecyList.add(NOK);
-        currnecyList.add(SEK);
-        currnecyList.add(RON);
-        currnecyList.add(BGN);
-        currnecyList.add(TRY);
-        currnecyList.add(ZAR);
-        currnecyList.add(CNY);
+        currencyList.add(USD);
+        currencyList.add(EUR);
+        currencyList.add(GBP);
+        currencyList.add(CHF);
+        currencyList.add(AED);
+        currencyList.add(AUD);
+        currencyList.add(CAD);
+        currencyList.add(HUF);
+        currencyList.add(JPY);
+        currencyList.add(CZK);
+        currencyList.add(DKK);
+        currencyList.add(NOK);
+        currencyList.add(SEK);
+        currencyList.add(RON);
+        currencyList.add(BGN);
+        currencyList.add(TRY);
+        currencyList.add(ZAR);
+        currencyList.add(CNY);
+    }
+
+
+
+    public String displayShortName(){
+        StringBuilder shortNames = new StringBuilder();
+        for (Currency currency : currencyList) {
+            shortNames.append(currency.getShortName()).append(",");
+        }
+        return shortNames.toString();
     }
 
 

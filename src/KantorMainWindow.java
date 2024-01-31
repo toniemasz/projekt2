@@ -2,56 +2,85 @@ import javax.swing.*;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class KantorMainWindow extends JFrame {
     public KantorMainWindow() {
         initializeComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 500);
         setLocationRelativeTo(null);
         setTitle("Kantor");
+        pack();
     }
 
     private void initializeComponents() {
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(3, 1));
+        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        mainPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.NORTH;
 
         Color lightGreen = new Color(144, 238, 144);
         mainPanel.setBackground(lightGreen);
 
         JLabel welcomeLabel = new JLabel("KANTOR PLN", SwingConstants.CENTER);
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 32));
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 50));
 
         JButton currencyButton = new JButton("Kurs waluty");
-        currencyButton.addActionListener(e -> {
-            CurrencyCheck();
-        });
+        currencyButton.addActionListener(e -> CurrencyCheck());
 
         JButton exchangeButton = new JButton("Wymień walutę");
-        exchangeButton.addActionListener(e -> {
-            exchange();
-        });
+        exchangeButton.addActionListener(e -> exchange());
 
+        JButton allCurrencyButton = new JButton("Wyświetl wszystkie dostępne waluty");
+        allCurrencyButton.addActionListener(e -> showAllCurrencies());
+
+        JPanel buttons = new JPanel(new GridBagLayout());
+        buttons.add(Box.createVerticalStrut(50));
+        buttons.add(currencyButton, gbc);
+        buttons.add(Box.createVerticalStrut(50));
+        buttons.add(exchangeButton, gbc);
+        buttons.add(allCurrencyButton, gbc);
+
+        gbc.gridy = 0; // Zerujemy wartość przed dodaniem komponentów
+
+        mainPanel.add(Box.createVerticalStrut(20), gbc);
+        gbc.gridy++; // Przesuwamy się o jeden wiersz
+        mainPanel.add(welcomeLabel, gbc);
+        gbc.gridy++; // Przesuwamy się o jeden wiersz
+        mainPanel.add(Box.createVerticalStrut(20), gbc);
+        gbc.gridy++; // Przesuwamy się o jeden wiersz
+        mainPanel.add(buttons, gbc);
+        buttons.setBackground(lightGreen);
+
+        Font buttonFont = new Font("Arial", Font.PLAIN, 24); // Możesz dostosować wielkość czcionki przycisków
+        currencyButton.setFont(buttonFont);
+        exchangeButton.setFont(buttonFont);
+        allCurrencyButton.setFont(buttonFont);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JButton closeButton = new JButton("Zamknij aplikację");
-        Insets margin = new Insets(0, 0, 0, 0);
-        closeButton.setMargin(margin);
         closeButton.addActionListener(e -> {
             dispose();
             System.exit(0);
         });
-
-        mainPanel.add(welcomeLabel);
-        mainPanel.add(currencyButton);
-        mainPanel.add(exchangeButton);
-
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.add(closeButton);
 
         setLayout(new BorderLayout());
         add(mainPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private void showAllCurrencies() {
+        CurrencyConverterClient converterClient = new CurrencyConverterClient();
+        converterClient.setChoice(3);
+        converterClient.connectToClient();
+        String shortNames = converterClient.getListOfShortName();
+        JOptionPane.showMessageDialog(this, shortNames);
     }
 
     private void exchange() {
@@ -61,7 +90,7 @@ public class KantorMainWindow extends JFrame {
 
             // Przekazujemy informację o wyborze do klienta
             converterClient.setChoice(2);
-            String currencyCode = JOptionPane.showInputDialog(this, "Podaj kod waluty (np. USD, EUR, GBP):");
+            String currencyCode = JOptionPane.showInputDialog(this, "Podaj kod waluty (np. USD, EUR):");
             converterClient.setCurrencyCode(currencyCode);
             String amount = JOptionPane.showInputDialog(this,"Podaj kwotę: ");
             converterClient.setAmount(Double.parseDouble(amount));

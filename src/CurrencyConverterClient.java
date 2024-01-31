@@ -12,6 +12,8 @@ public class CurrencyConverterClient {
 
     private double convertedAmount;
 
+    private String listOfShortName;
+
 
 
     public String getCurrencyCode() {
@@ -34,7 +36,9 @@ public class CurrencyConverterClient {
         this.amount = amount;
     }
 
-
+    public String getListOfShortName(){
+        return listOfShortName;
+    }
 
     public double getConvertedAmount() {
         return convertedAmount;
@@ -66,9 +70,7 @@ public class CurrencyConverterClient {
                 // Przelicz kwotę
                 outputStream.writeObject("CONVERT");
 
-                System.out.println("Przeliczanie z PLN na:");
 
-                System.out.println("Podaj kod waluty docelowej (np. USD):");
                 outputStream.writeObject(currencyCode);
 
                 System.out.println("Podaj kwotę:");
@@ -81,7 +83,10 @@ public class CurrencyConverterClient {
                 } else {
                     System.out.println("Nie udało się przeliczyć kwoty. Sprawdź dostępność kursów walut.");
                 }
-            }
+                } else if (choice == 3) {
+                    outputStream.writeObject("SHOW");
+                    listOfShortName = (String) inputStream.readObject();
+                }
 
             outputStream.close();
             inputStream.close();

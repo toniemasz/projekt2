@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class CurrencyConverterServer {
     static CurrencyList currencyList = new CurrencyList();
 
     static {
-        for (Currency currency : currencyList.currnecyList) {
+        for (Currency currency : currencyList.currencyList) {
             exchangeRates.put(currency.getShortName(), currency.getCurrency());
         }
     }
@@ -25,36 +26,40 @@ public class CurrencyConverterServer {
             while (true) {
 
                 Socket socket = serverSocket.accept();
+                new Thread(() -> {
+                    try {
+                        ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 
+                        String request = (String) inputStream.readObject();
 
-                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+                        if ("GET_RATE".equals(request)) {
+                            // Obsługa żądania pobrania kursu waluty
+                            String currencyCode = (String) inputStream.readObject();
+                            Double exchangeRate = exchangeRates.getOrDefault(currencyCode, -1.0);
+                            outputStream.writeObject(exchangeRate);
 
-                String request = (String) inputStream.readObject();
+                        } else if ("CONVERT".equals(request)) {
+                            // Obsługa żądania przeliczenia kwoty
+                            String toCurrency = (String) inputStream.readObject();
+                            double amount = (Double) inputStream.readObject();
 
-                if ("GET_RATE".equals(request)) {
-                    // Obsługa żądania pobrania kursu waluty
-                    String currencyCode = (String) inputStream.readObject();
-                    Double exchangeRate = exchangeRates.getOrDefault(currencyCode, -1.0);
-                    outputStream.writeObject(exchangeRate);
+                            Double fromRate = 1.0;
+                            Double toRate = exchangeRates.getOrDefault(toCurrency, -1.0);
 
-                } else if ("CONVERT".equals(request)) {
-                    // Obsługa żądania przeliczenia kwoty
-                    String toCurrency = (String) inputStream.readObject();
-                    double amount = (Double) inputStream.readObject();
+                            double convertedAmount = amount * (fromRate / toRate);
+                            outputStream.writeObject(convertedAmount);
+                        }else if ("SHOW".equals(request)){
+                            outputStream.writeObject(currencyList.displayShortName());
+                        }
 
-                    Double fromRate =  1.0;
-                    Double toRate = exchangeRates.getOrDefault(toCurrency, -1.0);
-
-
-                    double convertedAmount = amount * (fromRate / toRate);
-                    outputStream.writeObject(convertedAmount);
-
-                }
-
-                inputStream.close();
-                outputStream.close();
-                socket.close();
+                        inputStream.close();
+                        outputStream.close();
+                        socket.close();
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
             }
 
         } catch (Exception e) {
